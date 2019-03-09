@@ -28,64 +28,65 @@ public class FormPomoc extends javax.swing.JDialog {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        pnlScroll = new javax.swing.JScrollPane();
+        txtPomoc = new javax.swing.JTextArea();
+        btnZatvori = new javax.swing.JButton();
+
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("BuKing - Pomoc");
+        setResizable(false);
+
+        pnlScroll.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+        pnlScroll.setToolTipText("");
+
+        txtPomoc.setEditable(false);
+        txtPomoc.setColumns(25);
+        txtPomoc.setFont(new java.awt.Font("Monospaced", 0, 14)); // NOI18N
+        txtPomoc.setRows(5);
+        txtPomoc.setText("Uputstvo za kreiranje naloga:\n\n1) Ime - unesite svoje ime. Moze sadrzati samo slova.\n\n2) Prezime - unesite svoje prezime. Moze sadrzati samo\nslova.\n\n3) JMBG - unesite svoj maticni broj. Mora sadrzati\niskljucivo cifre i sadrzati 13 cifara.\n\n4) Username - unesite svoje novo korisnicko ime. Mora\nbiti jedinstveno i duze od 4 slova. Moze sadrzati slova i \nbrojeve.\n\n5) Password - unesite vasu lozinku pomocu koje cete se\nprijavljivati na sistem. Moze sadrzati slova i brojeve.\nMora biti duza od 7 karaktera i mora sadrzati barem jednu\ncifru i barem jedno slovo.\n\n6) Ponovite password - unesite lozinku koju ste uneli u\npolje password. Ovaj korak postoji kako bismo osigurali\nda ste zaista uneli zeljenu lozinku.\n\n7) E-mail - unesite vasu e-mail adresu. Ona mora biti\nvalidna (mora sadrzati \"@\"). Samo jedan nalog moze biti \nkreiran po e-mail adresi.\n\n-----------------------------------------------\nSAMO ZA VLASNICKE NALOGE\n-----------------------------------------------\n8) Broj licne karte - unesite Vas broj licne karte. Moze\nsadrzati samo cifre.\n\n9) Kontakt telefon - unesite telefon na koji zelite da\nbudete kontaktirani od strane zainteresovanih klijenata.\nSadrzi samo cifre (moze poceti simbolom \"+\").");
+        txtPomoc.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        pnlScroll.setViewportView(txtPomoc);
+
+        btnZatvori.setText("Zatvori");
+        btnZatvori.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnZatvoriActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(pnlScroll, javax.swing.GroupLayout.DEFAULT_SIZE, 494, Short.MAX_VALUE)
+                .addContainerGap())
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btnZatvori)
+                .addGap(52, 52, 52))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(pnlScroll, javax.swing.GroupLayout.PREFERRED_SIZE, 243, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnZatvori)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(FormPomoc.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(FormPomoc.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(FormPomoc.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(FormPomoc.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the dialog */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                FormPomoc dialog = new FormPomoc(new javax.swing.JFrame(), true);
-                dialog.addWindowListener(new java.awt.event.WindowAdapter() {
-                    @Override
-                    public void windowClosing(java.awt.event.WindowEvent e) {
-                        System.exit(0);
-                    }
-                });
-                dialog.setVisible(true);
-            }
-        });
-    }
+    private void btnZatvoriActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnZatvoriActionPerformed
+        dispose();
+    }//GEN-LAST:event_btnZatvoriActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnZatvori;
+    private javax.swing.JScrollPane pnlScroll;
+    private javax.swing.JTextArea txtPomoc;
     // End of variables declaration//GEN-END:variables
 }
