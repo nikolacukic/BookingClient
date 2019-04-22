@@ -5,7 +5,12 @@
  */
 package form;
 
+import domain.Korisnik;
 import form.util.FormPomoc;
+import java.util.HashMap;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+import kontroler.Kontroler;
 
 /**
  *
@@ -94,6 +99,11 @@ public class FormRegistracija extends javax.swing.JFrame {
         );
 
         btnRegistracija.setText("Registruj se");
+        btnRegistracija.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRegistracijaActionPerformed(evt);
+            }
+        });
 
         pnlLicniPodaci.setBorder(javax.swing.BorderFactory.createTitledBorder("Licni podaci"));
 
@@ -164,21 +174,21 @@ public class FormRegistracija extends javax.swing.JFrame {
                 .addGap(46, 46, 46)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(lblEmail)
-                        .addGap(40, 40, 40)
-                        .addComponent(txtEmail, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addComponent(lblPasswordCheck)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(txtPasswordCheck))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(lblUsername)
                             .addComponent(lblPassword))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(txtUsername, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)
-                            .addComponent(txtPassword))))
+                        .addGap(71, 71, 71)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(txtPassword)
+                            .addComponent(txtUsername)))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lblPasswordCheck)
+                            .addComponent(lblEmail))
+                        .addGap(22, 22, 22)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(txtEmail)
+                            .addComponent(txtPasswordCheck))))
                 .addGap(106, 106, 106))
         );
         jPanel1Layout.setVerticalGroup(
@@ -252,7 +262,45 @@ public class FormRegistracija extends javax.swing.JFrame {
         frm.setVisible(true);
     }//GEN-LAST:event_btnPomocActionPerformed
 
-  
+    private void btnRegistracijaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistracijaActionPerformed
+        String username = txtUsername.getText();
+        String password = String.valueOf(txtPassword.getPassword());
+        String JMBG = txtJMBG.getText();
+        String ime = txtIme.getText();
+        String prezime = txtPrezime.getText();
+        String email = txtEmail.getText();
+        String passwordCheck = String.valueOf(txtPasswordCheck.getPassword());
+        String licnaKarta = txtLicnaKarta.getText();
+        String telefon = txtTelefon.getText();
+
+        HashMap<String, String> recnik = new HashMap<String, String>();
+        recnik.put("ime", ime);
+        recnik.put("prezime", prezime);
+        recnik.put("JMBG", JMBG);
+        recnik.put("username", username);
+        recnik.put("password", password);
+        recnik.put("passwordCheck", passwordCheck);
+        recnik.put("email", email);
+        recnik.put("licnaKarta", licnaKarta);
+        recnik.put("telefon", telefon);
+        try {
+            validacija(recnik);
+
+            Korisnik korisnik = Kontroler.getInstance().registracija(recnik);
+
+            dispose();
+
+            JFrame frmLogin = new FormLogin();
+            frmLogin.setVisible(true);
+            JOptionPane.showMessageDialog(frmLogin, "Uspesno ste kreirali nalog!", "Obavestenje", JOptionPane.INFORMATION_MESSAGE);
+
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(this, ex.getMessage(), "Greska", JOptionPane.ERROR_MESSAGE);
+        }
+
+    }//GEN-LAST:event_btnRegistracijaActionPerformed
+
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnPomoc;
     private javax.swing.JButton btnRegistracija;
@@ -283,4 +331,122 @@ public class FormRegistracija extends javax.swing.JFrame {
         pnlVlasnicki.setVisible(vlasnicki);
         pack();
     }
+
+    private void popunjenaPolja(HashMap podaci) throws Exception {
+        for (Object unos : podaci.values()) {
+            String s = (String) unos;
+            if (s.isEmpty()) {
+                throw new Exception("Sva polja moraju biti popunjena!");
+            }
+        }
+
+        /*for (String podatak : podaci) {
+         if(podatak.isEmpty()) {
+         throw new Exception("Sva polja moraju biti popunjena");
+         }
+         }*/
+    }
+
+    private void validacija(HashMap podaci) throws Exception {
+        popunjenaPolja(podaci);
+        validacijaIme((String) podaci.get("ime"));
+        validacijaPrezime((String) podaci.get("prezime"));
+        validacijaJMBG((String) podaci.get("JMBG"));
+        validacijaPassword((String) podaci.get("password"), (String) podaci.get("passwordCheck"));
+        validacijaEmail((String) podaci.get("email"));
+        validacijaUsername((String) podaci.get("username"));
+        if (pnlVlasnicki.isVisible()) {
+            validacijaLK((String) podaci.get("licnaKarta"));
+            validacijaTelefon((String) podaci.get("telefon"));
+        }
+    }
+
+    private void validacijaIme(String ime) throws Exception {
+        for (char ch : ime.toCharArray()) {
+            if (!Character.isAlphabetic(ch)) {
+                throw new Exception("Ime sme sadrzati samo slova!");
+            }
+        }
+    }
+
+    private void validacijaPrezime(String prezime) throws Exception {
+        for (char ch : prezime.toCharArray()) {
+            if (!Character.isAlphabetic(ch)) {
+                throw new Exception("Prezime sme sadrzati samo slova!");
+            }
+        }
+    }
+
+    private void validacijaJMBG(String JMBG) throws Exception {
+        if (JMBG.length() != 13) {
+            throw new Exception("JMBG mora imati 13 cifara! Proverite vas JMBG i probajte ponovo!");
+        }
+        for (char ch : JMBG.toCharArray()) {
+            if (!Character.isDigit(ch)) {
+                throw new Exception("JMBG sme sadrzati samo cifre!");
+            }
+        }
+    }
+
+    private void validacijaPassword(String password, String passwordCheck) throws Exception {
+        if (password.length() < 7) {
+            throw new Exception("Lozinka mora sadrzati minimum 7 karaktera!");
+        }
+        boolean slovo = false;
+        boolean broj = false;
+        for (char ch : password.toCharArray()) {
+            if (!Character.isAlphabetic(ch) && !Character.isDigit(ch)) {
+                throw new Exception("Lozinka moze sadrzati samo slova i brojeve!");
+            }
+            if (Character.isAlphabetic(ch)) {
+                slovo = true;
+                continue;
+            }
+            if (Character.isDigit(ch)) {
+                broj = true;
+            }
+        }
+
+        if (!password.equals(passwordCheck)) {
+            throw new Exception("Lozinka i ponovljena lozinka se ne podudaraju!");
+        }
+    }
+
+    private void validacijaEmail(String email) throws Exception {
+        if (!email.contains("@")) {
+            throw new Exception("E-mail adresa mora sadrzati \"@\" znak!");
+        }
+    }
+
+    private void validacijaUsername(String username) throws Exception {
+        if (username.length() < 4) {
+            throw new Exception("Username mora biti dugacak minimum 4 karaktera!");
+        }
+    }
+
+    private void validacijaLK(String lk) throws Exception {
+        if (lk.isEmpty()) {
+            throw new Exception("Sva polja moraju biti popunjena!");
+        }
+        for (char ch : lk.toCharArray()) {
+            if (!Character.isDigit(ch)) {
+                throw new Exception("Broj licne karte sme sadrzati samo cifre!");
+            }
+        }
+    }
+
+    private void validacijaTelefon(String telefon) throws Exception {
+        if (telefon.isEmpty()) {
+            throw new Exception("Sva polja moraju biti popunjena!");
+        }
+        for (int i = 0; i < telefon.length(); i++) {
+            if (!Character.isDigit(telefon.toCharArray()[i])) {
+                if (telefon.toCharArray()[i] == '+' && i == 0) {
+                    continue;
+                }
+                throw new Exception("Telefon moze sadrzati samo cifre i + na pocetku!");
+            }
+        }
+    }
+
 }

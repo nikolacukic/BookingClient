@@ -7,7 +7,9 @@ package kontroler;
 
 import komunikacija.Komunikacija;
 import domain.Klijent;
+import domain.Korisnik;
 import domain.VlasnikSmestaja;
+import java.util.HashMap;
 import transfer.Odgovor;
 import transfer.Zahtev;
 import transfer.util.Operacije;
@@ -58,5 +60,9 @@ public class Kontroler {
         }
         Exception ex = (Exception) odgovor.getError();
         throw ex;
+    }
+
+    public Korisnik registracija(HashMap<String, String> recnik) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

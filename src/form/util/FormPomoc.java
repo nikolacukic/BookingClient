@@ -17,6 +17,7 @@ public class FormPomoc extends javax.swing.JDialog {
     public FormPomoc(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        setLocationRelativeTo(null);
     }
 
     /**
