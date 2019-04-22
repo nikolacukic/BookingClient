@@ -33,10 +33,10 @@ public class FormMain extends javax.swing.JFrame {
         menuSmestaj = new javax.swing.JMenu();
         menuItemKreirajSmestaj = new javax.swing.JMenuItem();
         menuItemIzmeniSmestaj = new javax.swing.JMenuItem();
-        menuItemPretraziSmestaj = new javax.swing.JMenuItem();
         menuItemObrisiSmestaj = new javax.swing.JMenuItem();
+        menuItemPretraziSmestaj = new javax.swing.JMenuItem();
         menuRezervacije = new javax.swing.JMenu();
-        menuItemKreirajRezervaciju = new javax.swing.JMenuItem();
+        menuItemRezervisi = new javax.swing.JMenuItem();
         menuItemPretraziRezervacije = new javax.swing.JMenuItem();
         menuItemOtkaziRezervaciju = new javax.swing.JMenuItem();
         menuOcene = new javax.swing.JMenu();
@@ -46,8 +46,6 @@ public class FormMain extends javax.swing.JFrame {
 
         lblDobrodosao.setText("Dobrodosao/la");
 
-        lblImePrezime.setText("a");
-
         menuSmestaj.setText("Smestaj");
 
         menuItemKreirajSmestaj.setText("Kreiraj");
@@ -56,23 +54,28 @@ public class FormMain extends javax.swing.JFrame {
         menuItemIzmeniSmestaj.setText("Izmeni");
         menuSmestaj.add(menuItemIzmeniSmestaj);
 
-        menuItemPretraziSmestaj.setText("Pretrazi");
-        menuSmestaj.add(menuItemPretraziSmestaj);
-
         menuItemObrisiSmestaj.setText("Obrisi");
         menuSmestaj.add(menuItemObrisiSmestaj);
+
+        menuItemPretraziSmestaj.setText("Pretrazi");
+        menuSmestaj.add(menuItemPretraziSmestaj);
 
         menuBar.add(menuSmestaj);
 
         menuRezervacije.setText("Rezervacije");
 
-        menuItemKreirajRezervaciju.setText("Kreiraj");
-        menuRezervacije.add(menuItemKreirajRezervaciju);
+        menuItemRezervisi.setText("Rezervisi");
+        menuRezervacije.add(menuItemRezervisi);
 
-        menuItemPretraziRezervacije.setText("Pretrazi");
+        menuItemPretraziRezervacije.setText("Pretraga rezervacije");
+        menuItemPretraziRezervacije.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuItemPretraziRezervacijeActionPerformed(evt);
+            }
+        });
         menuRezervacije.add(menuItemPretraziRezervacije);
 
-        menuItemOtkaziRezervaciju.setText("Otkazi");
+        menuItemOtkaziRezervaciju.setText("Otkazi rezervaciju");
         menuRezervacije.add(menuItemOtkaziRezervaciju);
 
         menuBar.add(menuRezervacije);
@@ -95,7 +98,7 @@ public class FormMain extends javax.swing.JFrame {
                 .addComponent(lblDobrodosao)
                 .addGap(18, 18, 18)
                 .addComponent(lblImePrezime)
-                .addContainerGap(242, Short.MAX_VALUE))
+                .addContainerGap(249, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -110,40 +113,9 @@ public class FormMain extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(FormMain.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(FormMain.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(FormMain.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(FormMain.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new FormMain().setVisible(true);
-            }
-        });
-    }
+    private void menuItemPretraziRezervacijeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuItemPretraziRezervacijeActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_menuItemPretraziRezervacijeActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel lblDobrodosao;
@@ -151,12 +123,12 @@ public class FormMain extends javax.swing.JFrame {
     private javax.swing.JMenuBar menuBar;
     private javax.swing.JMenuItem menuItemIzmeniSmestaj;
     private javax.swing.JMenuItem menuItemKreirajOcenu;
-    private javax.swing.JMenuItem menuItemKreirajRezervaciju;
     private javax.swing.JMenuItem menuItemKreirajSmestaj;
     private javax.swing.JMenuItem menuItemObrisiSmestaj;
     private javax.swing.JMenuItem menuItemOtkaziRezervaciju;
     private javax.swing.JMenuItem menuItemPretraziRezervacije;
     private javax.swing.JMenuItem menuItemPretraziSmestaj;
+    private javax.swing.JMenuItem menuItemRezervisi;
     private javax.swing.JMenu menuOcene;
     private javax.swing.JMenu menuRezervacije;
     private javax.swing.JMenu menuSmestaj;
