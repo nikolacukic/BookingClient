@@ -5,6 +5,11 @@
  */
 package form;
 
+import domain.Klijent;
+import domain.VlasnikSmestaja;
+import form.smestaj.FormSmestaj;
+import sesija.Sesija;
+
 /**
  *
  * @author Nikola PC
@@ -16,6 +21,8 @@ public class FormMain extends javax.swing.JFrame {
      */
     public FormMain() {
         initComponents();
+        popuniIme();
+        omoguciMenije();
     }
 
     /**
@@ -29,6 +36,7 @@ public class FormMain extends javax.swing.JFrame {
 
         lblDobrodosao = new javax.swing.JLabel();
         lblImePrezime = new javax.swing.JLabel();
+        pnlMain = new javax.swing.JPanel();
         menuBar = new javax.swing.JMenuBar();
         menuSmestaj = new javax.swing.JMenu();
         menuItemKreirajSmestaj = new javax.swing.JMenuItem();
@@ -46,12 +54,33 @@ public class FormMain extends javax.swing.JFrame {
 
         lblDobrodosao.setText("Dobrodosao/la");
 
+        javax.swing.GroupLayout pnlMainLayout = new javax.swing.GroupLayout(pnlMain);
+        pnlMain.setLayout(pnlMainLayout);
+        pnlMainLayout.setHorizontalGroup(
+            pnlMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+        );
+        pnlMainLayout.setVerticalGroup(
+            pnlMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 120, Short.MAX_VALUE)
+        );
+
         menuSmestaj.setText("Smestaj");
 
         menuItemKreirajSmestaj.setText("Kreiraj");
+        menuItemKreirajSmestaj.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuItemKreirajSmestajActionPerformed(evt);
+            }
+        });
         menuSmestaj.add(menuItemKreirajSmestaj);
 
         menuItemIzmeniSmestaj.setText("Izmeni");
+        menuItemIzmeniSmestaj.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuItemIzmeniSmestajActionPerformed(evt);
+            }
+        });
         menuSmestaj.add(menuItemIzmeniSmestaj);
 
         menuItemObrisiSmestaj.setText("Obrisi");
@@ -99,6 +128,10 @@ public class FormMain extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addComponent(lblImePrezime)
                 .addContainerGap(249, Short.MAX_VALUE))
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(pnlMain, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -107,7 +140,8 @@ public class FormMain extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblDobrodosao)
                     .addComponent(lblImePrezime))
-                .addContainerGap(113, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 48, Short.MAX_VALUE)
+                .addComponent(pnlMain, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         pack();
@@ -116,6 +150,14 @@ public class FormMain extends javax.swing.JFrame {
     private void menuItemPretraziRezervacijeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuItemPretraziRezervacijeActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_menuItemPretraziRezervacijeActionPerformed
+
+    private void menuItemKreirajSmestajActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuItemKreirajSmestajActionPerformed
+        pnlMain = new FormSmestaj();
+    }//GEN-LAST:event_menuItemKreirajSmestajActionPerformed
+
+    private void menuItemIzmeniSmestajActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuItemIzmeniSmestajActionPerformed
+        
+    }//GEN-LAST:event_menuItemIzmeniSmestajActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel lblDobrodosao;
@@ -132,5 +174,23 @@ public class FormMain extends javax.swing.JFrame {
     private javax.swing.JMenu menuOcene;
     private javax.swing.JMenu menuRezervacije;
     private javax.swing.JMenu menuSmestaj;
+    private javax.swing.JPanel pnlMain;
     // End of variables declaration//GEN-END:variables
+
+    private void popuniIme() {
+        lblImePrezime.setText(Sesija.getInstance().getKorisnik().getImePrezime());
+    }
+
+    private void omoguciMenije() {
+        if (Sesija.getInstance().getKorisnik() instanceof VlasnikSmestaja) {
+            menuItemKreirajOcenu.setEnabled(false);
+            menuItemOtkaziRezervaciju.setEnabled(false);
+            menuItemRezervisi.setEnabled(false);
+        } else if (Sesija.getInstance().getKorisnik() instanceof Klijent) {
+            menuItemIzmeniSmestaj.setEnabled(false);
+            menuItemKreirajSmestaj.setEnabled(false);
+            menuItemObrisiSmestaj.setEnabled(false);
+            menuItemPretraziRezervacije.setEnabled(false);
+        }
+    }
 }
