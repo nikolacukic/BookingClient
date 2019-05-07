@@ -29,11 +29,17 @@
               <Properties>
                 <Property name="text" type="java.lang.String" value="Obrisi"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="menuItemObrisiSmestajActionPerformed"/>
+              </Events>
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="menuItemPretraziSmestaj">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Pretrazi"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="menuItemPretraziSmestajActionPerformed"/>
+              </Events>
             </MenuItem>
           </SubComponents>
         </Menu>

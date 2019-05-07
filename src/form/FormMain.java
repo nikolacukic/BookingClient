@@ -8,6 +8,7 @@ package form;
 import domain.Klijent;
 import domain.VlasnikSmestaja;
 import form.smestaj.FormSmestaj;
+import form.smestaj.FormSmestajLista;
 import sesija.Sesija;
 
 /**
@@ -84,9 +85,19 @@ public class FormMain extends javax.swing.JFrame {
         menuSmestaj.add(menuItemIzmeniSmestaj);
 
         menuItemObrisiSmestaj.setText("Obrisi");
+        menuItemObrisiSmestaj.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuItemObrisiSmestajActionPerformed(evt);
+            }
+        });
         menuSmestaj.add(menuItemObrisiSmestaj);
 
         menuItemPretraziSmestaj.setText("Pretrazi");
+        menuItemPretraziSmestaj.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuItemPretraziSmestajActionPerformed(evt);
+            }
+        });
         menuSmestaj.add(menuItemPretraziSmestaj);
 
         menuBar.add(menuSmestaj);
@@ -153,11 +164,23 @@ public class FormMain extends javax.swing.JFrame {
 
     private void menuItemKreirajSmestajActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuItemKreirajSmestajActionPerformed
         pnlMain = new FormSmestaj();
+        pack();
     }//GEN-LAST:event_menuItemKreirajSmestajActionPerformed
 
     private void menuItemIzmeniSmestajActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuItemIzmeniSmestajActionPerformed
-        
+        pnlMain = new FormSmestajLista();
+        pack();
     }//GEN-LAST:event_menuItemIzmeniSmestajActionPerformed
+
+    private void menuItemObrisiSmestajActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuItemObrisiSmestajActionPerformed
+        pnlMain = new FormSmestajLista();
+        pack();
+    }//GEN-LAST:event_menuItemObrisiSmestajActionPerformed
+
+    private void menuItemPretraziSmestajActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuItemPretraziSmestajActionPerformed
+        pnlMain = new FormSmestajLista();
+        pack();
+    }//GEN-LAST:event_menuItemPretraziSmestajActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel lblDobrodosao;
