@@ -336,6 +336,9 @@ public class FormRegistracija extends javax.swing.JFrame {
         for (Object unos : podaci.values()) {
             String s = (String) unos;
             if (s.isEmpty()) {
+                if ((podaci.get("licnaKarta").equals(unos) || podaci.get("telefon").equals(unos)) && !pnlVlasnicki.isVisible()) {
+                    continue;
+                }
                 throw new Exception("Sva polja moraju biti popunjena!");
             }
         }
@@ -406,7 +409,9 @@ public class FormRegistracija extends javax.swing.JFrame {
                 broj = true;
             }
         }
-
+        if (!slovo || !broj) {
+            throw new Exception("Lozinka mora sadrzati barem jedno slovo i barem jedan broj!");
+        }
         if (!password.equals(passwordCheck)) {
             throw new Exception("Lozinka i ponovljena lozinka se ne podudaraju!");
         }

@@ -73,7 +73,7 @@ public class Kontroler {
         String telefon = recnik.get("telefon");
         if (!licnaKarta.isEmpty()) {
             VlasnikSmestaja vlasnik = new VlasnikSmestaja(licnaKarta, telefon, 0, username, password, ime + " " + prezime, JMBG, email);
-            Zahtev zahtev = new Zahtev(Operacije.LOGIN, vlasnik);
+            Zahtev zahtev = new Zahtev(Operacije.REGISTRACIJA, vlasnik);
             Komunikacija.getInstance().saljiZahtev(zahtev);
             Odgovor odgovor = Komunikacija.getInstance().citajOdgovor();
             if (odgovor.getStatus() == StatusOdgovora.OK) {

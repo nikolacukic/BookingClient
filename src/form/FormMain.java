@@ -24,6 +24,7 @@ public class FormMain extends javax.swing.JFrame {
         initComponents();
         popuniIme();
         omoguciMenije();
+        setLocationRelativeTo(null);
     }
 
     /**
@@ -52,6 +53,7 @@ public class FormMain extends javax.swing.JFrame {
         menuItemKreirajOcenu = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("BuKing - Glavni prozor");
 
         lblDobrodosao.setText("Dobrodosao/la");
 
