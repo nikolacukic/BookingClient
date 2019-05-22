@@ -5,17 +5,30 @@
  */
 package form.smestaj;
 
+import domain.Smestaj;
+import javax.swing.JOptionPane;
+import kontroler.Kontroler;
+
 /**
  *
- * @author Nikola PC
+ * @author user
  */
-public class FormSmestaj extends javax.swing.JPanel {
+public class FormNoviSmestaj extends javax.swing.JDialog {
 
     /**
-     * Creates new form FormSmestaj
+     * Creates new form FormNoviSmestaj
      */
-    public FormSmestaj() {
+    public FormNoviSmestaj(java.awt.Frame parent, boolean modal) {
+        super(parent, modal);
         initComponents();
+        setLocationRelativeTo(parent);
+    }
+    
+    public FormNoviSmestaj(java.awt.Dialog parent, boolean modal, Smestaj s) {
+        super(parent, modal);
+        initComponents();
+        setLocationRelativeTo(parent);
+        onemoguciIPopuni(s);
     }
 
     /**
@@ -27,20 +40,19 @@ public class FormSmestaj extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        lblNaziv = new javax.swing.JLabel();
-        txtNaziv = new javax.swing.JTextField();
-        lblBrojKreveta = new javax.swing.JLabel();
-        spinBrojKreveta = new javax.swing.JSpinner();
         lblCena = new javax.swing.JLabel();
         txtCena = new javax.swing.JTextField();
         jPanel1 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         txtOpis = new javax.swing.JTextArea();
         btnSacuvaj = new javax.swing.JButton();
+        lblNaziv = new javax.swing.JLabel();
+        txtNaziv = new javax.swing.JTextField();
+        lblBrojKreveta = new javax.swing.JLabel();
+        spinBrojKreveta = new javax.swing.JSpinner();
 
-        lblNaziv.setText("Naziv smestaja:");
-
-        lblBrojKreveta.setText("Broj kreveta: ");
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("BuKing - Kreiranje smestaja");
 
         lblCena.setText("Cena prenocista:");
 
@@ -70,9 +82,18 @@ public class FormSmestaj extends javax.swing.JPanel {
         );
 
         btnSacuvaj.setText("Kreiraj smestaj");
+        btnSacuvaj.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSacuvajActionPerformed(evt);
+            }
+        });
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-        this.setLayout(layout);
+        lblNaziv.setText("Naziv smestaja:");
+
+        lblBrojKreveta.setText("Broj kreveta: ");
+
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
@@ -118,7 +139,33 @@ public class FormSmestaj extends javax.swing.JPanel {
                 .addComponent(btnSacuvaj)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
+
+        pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnSacuvajActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSacuvajActionPerformed
+        String naziv = txtNaziv.getText();
+        String opis = txtOpis.getText();
+        int brKreveta = (Integer) spinBrojKreveta.getValue();
+        double cena;
+        if (!txtCena.getText().equals("")) {
+            cena = Double.parseDouble(txtCena.getText());
+        } else {
+            JOptionPane.showMessageDialog(this, "Sva polja moraju biti popunjena!", "Greska", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        try{
+            validacija(naziv, opis, brKreveta, cena);
+            Smestaj smestaj = Kontroler.getInstance().kreirajSmestaj(naziv, opis, brKreveta, cena);
+            
+            JOptionPane.showMessageDialog(this.getParent(), "Uspesno ste kreirali smestaj!", "Obavestenje", JOptionPane.INFORMATION_MESSAGE);
+            dispose();
+            
+            
+        } catch(Exception ex){
+            JOptionPane.showMessageDialog(this, ex.getMessage(), "Greska", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_btnSacuvajActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -133,4 +180,29 @@ public class FormSmestaj extends javax.swing.JPanel {
     private javax.swing.JTextField txtNaziv;
     private javax.swing.JTextArea txtOpis;
     // End of variables declaration//GEN-END:variables
+
+    private void validacija(String naziv, String opis, int brKreveta, double cena) throws Exception {
+        if (naziv.isEmpty() || opis.isEmpty()) {
+            throw new Exception("Sva polja moraju biti popunjena!");
+        }
+        if(brKreveta < 1){
+            throw new Exception("Broj kreveta ne moze biti manji od 1");
+        }
+        if(cena < 0){
+            throw new Exception("Cena smestaja ne moze biti negativna");
+        }
+    }
+
+    private void onemoguciIPopuni(Smestaj s) {
+        txtCena.setEditable(false);
+        txtNaziv.setEditable(false);
+        txtOpis.setEditable(false);
+        spinBrojKreveta.setEnabled(false);
+        btnSacuvaj.setVisible(false);
+        
+        txtNaziv.setText(s.getNazivSmestaja());
+        txtCena.setText(s.getCenaPrenocista()+"");
+        txtOpis.setText(s.getOpis());
+        spinBrojKreveta.setValue(s.getBrojKreveta());
+    }
 }

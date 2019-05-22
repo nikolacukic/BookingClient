@@ -5,17 +5,28 @@
  */
 package form.smestaj;
 
+import domain.Smestaj;
+import form.smestaj.model.TableModelSmestaj;
+import java.util.LinkedList;
+import java.util.List;
+import javax.swing.JDialog;
+import javax.swing.JOptionPane;
+import kontroler.Kontroler;
+
 /**
  *
  * @author user
  */
-public class FormSmestajLista extends javax.swing.JPanel {
+public class FormListaSmestaja extends javax.swing.JDialog {
 
     /**
-     * Creates new form FormSmestajLista
+     * Creates new form FormListaSmestaja
      */
-    public FormSmestajLista() {
+    public FormListaSmestaja(java.awt.Frame parent, boolean modal) {
+        super(parent, modal);
         initComponents();
+        pripremi();
+        pack();
     }
 
     /**
@@ -34,6 +45,10 @@ public class FormSmestajLista extends javax.swing.JPanel {
         btnPotvrdi = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblSmestaji = new javax.swing.JTable();
+        btnDetalji = new javax.swing.JButton();
+
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("BuKing - Lista smestaja");
 
         btnPretrazi.setText("Pretrazi");
 
@@ -56,21 +71,31 @@ public class FormSmestajLista extends javax.swing.JPanel {
         ));
         jScrollPane1.setViewportView(tblSmestaji);
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-        this.setLayout(layout);
+        btnDetalji.setText("Detalji");
+        btnDetalji.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDetaljiActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 704, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(333, Short.MAX_VALUE)
+                .addComponent(btnDetalji)
+                .addGap(325, 325, 325))
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(layout.createSequentialGroup()
+                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                     .addContainerGap()
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                         .addComponent(jScrollPane1)
                         .addGroup(layout.createSequentialGroup()
                             .addComponent(txtKriterijum, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGap(18, 18, 18)
                             .addComponent(btnPretrazi, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 131, Short.MAX_VALUE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 148, Short.MAX_VALUE)
                             .addComponent(btnObrisi)
                             .addGap(18, 18, 18)
                             .addComponent(Izmeni)
@@ -80,11 +105,14 @@ public class FormSmestajLista extends javax.swing.JPanel {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 404, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(202, Short.MAX_VALUE)
+                .addComponent(btnDetalji)
+                .addContainerGap())
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
                     .addContainerGap()
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 341, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGap(18, 18, 18)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(btnObrisi)
@@ -94,11 +122,28 @@ public class FormSmestajLista extends javax.swing.JPanel {
                         .addComponent(btnPotvrdi))
                     .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
         );
+
+        pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnDetaljiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDetaljiActionPerformed
+        try {
+            int selectedRow = vratiOznacenRed();
+
+            TableModelSmestaj model = (TableModelSmestaj) tblSmestaji.getModel();
+
+            JDialog frmProduct = new FormNoviSmestaj(this, true, model.getSmestaj(selectedRow));
+            frmProduct.setVisible(true);
+
+        } catch (Exception ex) {
+           JOptionPane.showMessageDialog(this, ex.getMessage(), "Greska", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_btnDetaljiActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton Izmeni;
+    private javax.swing.JButton btnDetalji;
     private javax.swing.JButton btnObrisi;
     private javax.swing.JButton btnPotvrdi;
     private javax.swing.JButton btnPretrazi;
@@ -106,4 +151,24 @@ public class FormSmestajLista extends javax.swing.JPanel {
     private javax.swing.JTable tblSmestaji;
     private javax.swing.JTextField txtKriterijum;
     // End of variables declaration//GEN-END:variables
+
+    private void pripremi() {
+        try {
+            setLocationRelativeTo(null);
+            List<Smestaj> s = Kontroler.getInstance().vratiSveSmestaje();
+            TableModelSmestaj model = new TableModelSmestaj(s);
+            tblSmestaji.setModel(model);
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(this, "Greska prilikom ucitavanja smestaja!", "Greska", JOptionPane.ERROR_MESSAGE);
+            ex.printStackTrace();
+        }
+    }
+    
+    private int vratiOznacenRed() throws Exception {
+        int selectedRow = tblSmestaji.getSelectedRow();
+        if (selectedRow == -1) {
+            throw new Exception("Morate oznaciti smestaj!");
+        }
+        return selectedRow;
+    }
 }

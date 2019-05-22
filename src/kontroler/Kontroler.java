@@ -8,8 +8,11 @@ package kontroler;
 import komunikacija.Komunikacija;
 import domain.Klijent;
 import domain.Korisnik;
+import domain.Smestaj;
 import domain.VlasnikSmestaja;
 import java.util.HashMap;
+import java.util.LinkedList;
+import sesija.Sesija;
 import transfer.Odgovor;
 import transfer.Zahtev;
 import transfer.util.Operacije;
@@ -92,5 +95,29 @@ public class Kontroler {
             Exception ex = (Exception) odgovor.getError();
             throw ex;
         }
+    }
+
+    public Smestaj kreirajSmestaj(String naziv, String opis, int brKreveta, double cena) throws Exception {
+        Smestaj s = new Smestaj();
+        s.setBrojKreveta(brKreveta);
+        s.setCenaPrenocista(cena);
+        s.setNazivSmestaja(naziv);
+        s.setOpis(opis);
+        s.setVlasnik((VlasnikSmestaja)Sesija.getInstance().getKorisnik());
+        Zahtev zahtev = new Zahtev(Operacije.SMESTAJ_KREIRANJE, s);
+        Komunikacija.getInstance().saljiZahtev(zahtev);
+        Odgovor odgovor = Komunikacija.getInstance().citajOdgovor();
+        if (odgovor.getStatus() == StatusOdgovora.OK) {
+            return (Smestaj) odgovor.getPodaci();
+        }
+        Exception ex = (Exception) odgovor.getError();
+        throw ex;
+    }
+
+    public LinkedList<Smestaj> vratiSveSmestaje() throws Exception {
+        Zahtev zahtev = new Zahtev(Operacije.SMESTAJ_UCITAVANJE, "");
+        Komunikacija.getInstance().saljiZahtev(zahtev);
+        Odgovor odgovor = Komunikacija.getInstance().citajOdgovor();
+        return (LinkedList<Smestaj>) odgovor.getPodaci();
     }
 }

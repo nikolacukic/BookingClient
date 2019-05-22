@@ -7,8 +7,9 @@ package form;
 
 import domain.Klijent;
 import domain.VlasnikSmestaja;
-import form.smestaj.FormSmestaj;
-import form.smestaj.FormSmestajLista;
+import form.smestaj.FormListaSmestaja;
+import form.smestaj.FormNoviSmestaj;
+import javax.swing.JDialog;
 import sesija.Sesija;
 
 /**
@@ -38,7 +39,6 @@ public class FormMain extends javax.swing.JFrame {
 
         lblDobrodosao = new javax.swing.JLabel();
         lblImePrezime = new javax.swing.JLabel();
-        pnlMain = new javax.swing.JPanel();
         menuBar = new javax.swing.JMenuBar();
         menuSmestaj = new javax.swing.JMenu();
         menuItemKreirajSmestaj = new javax.swing.JMenuItem();
@@ -56,17 +56,6 @@ public class FormMain extends javax.swing.JFrame {
         setTitle("BuKing - Glavni prozor");
 
         lblDobrodosao.setText("Dobrodosao/la");
-
-        javax.swing.GroupLayout pnlMainLayout = new javax.swing.GroupLayout(pnlMain);
-        pnlMain.setLayout(pnlMainLayout);
-        pnlMainLayout.setHorizontalGroup(
-            pnlMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
-        );
-        pnlMainLayout.setVerticalGroup(
-            pnlMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 120, Short.MAX_VALUE)
-        );
 
         menuSmestaj.setText("Smestaj");
 
@@ -141,10 +130,6 @@ public class FormMain extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addComponent(lblImePrezime)
                 .addContainerGap(249, Short.MAX_VALUE))
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(pnlMain, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -153,8 +138,7 @@ public class FormMain extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblDobrodosao)
                     .addComponent(lblImePrezime))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 48, Short.MAX_VALUE)
-                .addComponent(pnlMain, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(168, Short.MAX_VALUE))
         );
 
         pack();
@@ -165,23 +149,23 @@ public class FormMain extends javax.swing.JFrame {
     }//GEN-LAST:event_menuItemPretraziRezervacijeActionPerformed
 
     private void menuItemKreirajSmestajActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuItemKreirajSmestajActionPerformed
-        pnlMain = new FormSmestaj();
-        pack();
+        JDialog frm = new FormNoviSmestaj(this, true);
+        frm.setVisible(true);
     }//GEN-LAST:event_menuItemKreirajSmestajActionPerformed
 
     private void menuItemIzmeniSmestajActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuItemIzmeniSmestajActionPerformed
-        pnlMain = new FormSmestajLista();
-        pack();
+        JDialog frm = new FormListaSmestaja(this, true);
+        frm.setVisible(true);
     }//GEN-LAST:event_menuItemIzmeniSmestajActionPerformed
 
     private void menuItemObrisiSmestajActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuItemObrisiSmestajActionPerformed
-        pnlMain = new FormSmestajLista();
-        pack();
+        JDialog frm = new FormListaSmestaja(this, true);
+        frm.setVisible(true);
     }//GEN-LAST:event_menuItemObrisiSmestajActionPerformed
 
     private void menuItemPretraziSmestajActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuItemPretraziSmestajActionPerformed
-        pnlMain = new FormSmestajLista();
-        pack();
+        JDialog frm = new FormListaSmestaja(this, true);
+        frm.setVisible(true);
     }//GEN-LAST:event_menuItemPretraziSmestajActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -199,7 +183,6 @@ public class FormMain extends javax.swing.JFrame {
     private javax.swing.JMenu menuOcene;
     private javax.swing.JMenu menuRezervacije;
     private javax.swing.JMenu menuSmestaj;
-    private javax.swing.JPanel pnlMain;
     // End of variables declaration//GEN-END:variables
 
     private void popuniIme() {

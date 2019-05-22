@@ -6,7 +6,7 @@
 package form.smestaj.model;
 
 import domain.Smestaj;
-import domain.VlasnikSmestaja;
+import java.util.List;
 import javax.swing.table.AbstractTableModel;
 import sesija.Sesija;
 
@@ -16,17 +16,20 @@ import sesija.Sesija;
  */
 public class TableModelSmestaj extends AbstractTableModel{
 
-    private VlasnikSmestaja vlasnik;
-    private String header[] = new String[]{"Sifra smestaja", "Naziv smestaja", "Broj kreveta", "Cena prenocista", "Opis", "Prosecna ocena"};
+    private List<Smestaj> smestaji;
+    private String header[] = new String[]{"Sifra smestaja", "Naziv smestaja", "Broj kreveta", "Cena prenocista", "Opis", "Prosecna ocena", "Vlasnik"};
 
-    public TableModelSmestaj() {
-        this.vlasnik = (VlasnikSmestaja)Sesija.getInstance().getKorisnik();
+    public TableModelSmestaj(List<Smestaj> smestaji) {
+        this.smestaji = smestaji;
     }
     
     
     @Override
     public int getRowCount() {
-        return vlasnik.getSmestaji().size();
+        if(smestaji == null){
+            return 0;
+        }
+        return smestaji.size();
     }
 
     @Override
@@ -43,7 +46,7 @@ public class TableModelSmestaj extends AbstractTableModel{
     
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
-         Smestaj smestaj = vlasnik.getSmestaji().get(rowIndex);
+         Smestaj smestaj = smestaji.get(rowIndex);
         switch (columnIndex) {
             case 0:
                 return smestaj.getSifraSmestaja();
@@ -57,6 +60,8 @@ public class TableModelSmestaj extends AbstractTableModel{
                 return smestaj.getOpis();
             case 5:
                 return smestaj.getProsecnaOcena();
+            case 6:
+                return smestaj.getVlasnik().getKorisnickoIme();
             default:
                 return "n/a";
         }
@@ -64,6 +69,9 @@ public class TableModelSmestaj extends AbstractTableModel{
     
     @Override
     public boolean isCellEditable(int rowIndex, int columnIndex) {
+        if(!smestaji.get(rowIndex).getVlasnik().getKorisnickoIme().equals(Sesija.getInstance().getKorisnik().getKorisnickoIme())){
+            return false;
+        }
         switch (columnIndex) {
             case 0:
                 return false;
@@ -77,9 +85,15 @@ public class TableModelSmestaj extends AbstractTableModel{
                 return true;
             case 5:
                 return false;
+            case 6:
+                return false;
             default:
                 return false;
         }
+    }
+    
+    public Smestaj getSmestaj(int rowIndex) {
+        return smestaji.get(rowIndex);
     }
     
 }
