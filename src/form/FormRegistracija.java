@@ -292,7 +292,7 @@ public class FormRegistracija extends javax.swing.JFrame {
 
             JFrame frmLogin = new FormLogin();
             frmLogin.setVisible(true);
-            JOptionPane.showMessageDialog(frmLogin, "Uspesno ste kreirali nalog!", "Obavestenje", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(frmLogin, "Sistem je uspesno zapamtio nalog", "Obavestenje", JOptionPane.INFORMATION_MESSAGE);
 
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(this, ex.getMessage(), "Greska", JOptionPane.ERROR_MESSAGE);

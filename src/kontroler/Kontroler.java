@@ -114,10 +114,32 @@ public class Kontroler {
         throw ex;
     }
 
-    public LinkedList<Smestaj> vratiSveSmestaje() throws Exception {
-        Zahtev zahtev = new Zahtev(Operacije.SMESTAJ_UCITAVANJE, "");
+    public LinkedList<Smestaj> vratiSveSmestaje(String kriterijum) throws Exception {
+        Zahtev zahtev = new Zahtev(Operacije.SMESTAJ_UCITAVANJE, kriterijum);
         Komunikacija.getInstance().saljiZahtev(zahtev);
         Odgovor odgovor = Komunikacija.getInstance().citajOdgovor();
         return (LinkedList<Smestaj>) odgovor.getPodaci();
+    }
+
+    public Smestaj izmeniSmestaj(Smestaj s) throws Exception {
+        Zahtev zahtev = new Zahtev(Operacije.SMESTAJ_IZMENA, s);
+        Komunikacija.getInstance().saljiZahtev(zahtev);
+        Odgovor odgovor = Komunikacija.getInstance().citajOdgovor();
+        if (odgovor.getStatus() == StatusOdgovora.OK) {
+            return (Smestaj) odgovor.getPodaci();
+        }
+        Exception ex = (Exception) odgovor.getError();
+        throw ex;
+    }
+
+    public Smestaj obrisiSmestaj(Smestaj s) throws Exception {
+        Zahtev zahtev = new Zahtev(Operacije.SMESTAJ_BRISANJE, s);
+        Komunikacija.getInstance().saljiZahtev(zahtev);
+        Odgovor odgovor = Komunikacija.getInstance().citajOdgovor();
+        if (odgovor.getStatus() == StatusOdgovora.OK) {
+            return (Smestaj) odgovor.getPodaci();
+        }
+        Exception ex = (Exception) odgovor.getError();
+        throw ex;
     }
 }

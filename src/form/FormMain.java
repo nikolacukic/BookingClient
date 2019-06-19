@@ -9,6 +9,7 @@ import domain.Klijent;
 import domain.VlasnikSmestaja;
 import form.smestaj.FormListaSmestaja;
 import form.smestaj.FormNoviSmestaj;
+import form.util.ListaSmestajaFormMode;
 import javax.swing.JDialog;
 import sesija.Sesija;
 
@@ -154,17 +155,17 @@ public class FormMain extends javax.swing.JFrame {
     }//GEN-LAST:event_menuItemKreirajSmestajActionPerformed
 
     private void menuItemIzmeniSmestajActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuItemIzmeniSmestajActionPerformed
-        JDialog frm = new FormListaSmestaja(this, true);
+        JDialog frm = new FormListaSmestaja(this, true, ListaSmestajaFormMode.IZMENI);
         frm.setVisible(true);
     }//GEN-LAST:event_menuItemIzmeniSmestajActionPerformed
 
     private void menuItemObrisiSmestajActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuItemObrisiSmestajActionPerformed
-        JDialog frm = new FormListaSmestaja(this, true);
+        JDialog frm = new FormListaSmestaja(this, true, ListaSmestajaFormMode.OBRISI);
         frm.setVisible(true);
     }//GEN-LAST:event_menuItemObrisiSmestajActionPerformed
 
     private void menuItemPretraziSmestajActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuItemPretraziSmestajActionPerformed
-        JDialog frm = new FormListaSmestaja(this, true);
+        JDialog frm = new FormListaSmestaja(this, true, ListaSmestajaFormMode.PRETRAZI);
         frm.setVisible(true);
     }//GEN-LAST:event_menuItemPretraziSmestajActionPerformed
 

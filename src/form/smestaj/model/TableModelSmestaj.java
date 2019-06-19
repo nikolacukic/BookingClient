@@ -17,7 +17,7 @@ import sesija.Sesija;
 public class TableModelSmestaj extends AbstractTableModel{
 
     private List<Smestaj> smestaji;
-    private String header[] = new String[]{"Sifra smestaja", "Naziv smestaja", "Broj kreveta", "Cena prenocista", "Opis", "Prosecna ocena", "Vlasnik"};
+    private final String header[] = new String[]{"Sifra smestaja", "Naziv smestaja", "Broj kreveta", "Cena prenocista", "Opis", "Prosecna ocena", "Vlasnik"};
 
     public TableModelSmestaj(List<Smestaj> smestaji) {
         this.smestaji = smestaji;
@@ -69,7 +69,7 @@ public class TableModelSmestaj extends AbstractTableModel{
     
     @Override
     public boolean isCellEditable(int rowIndex, int columnIndex) {
-        if(!smestaji.get(rowIndex).getVlasnik().getKorisnickoIme().equals(Sesija.getInstance().getKorisnik().getKorisnickoIme())){
+        /*if(!smestaji.get(rowIndex).getVlasnik().getKorisnickoIme().equals(Sesija.getInstance().getKorisnik().getKorisnickoIme())){
             return false;
         }
         switch (columnIndex) {
@@ -89,11 +89,17 @@ public class TableModelSmestaj extends AbstractTableModel{
                 return false;
             default:
                 return false;
-        }
+        }*/
+        return false;
     }
     
     public Smestaj getSmestaj(int rowIndex) {
         return smestaji.get(rowIndex);
     }
+
+    public void setSmestaji(List<Smestaj> smestaji) {
+        this.smestaji = smestaji;
+    }
+ 
     
 }

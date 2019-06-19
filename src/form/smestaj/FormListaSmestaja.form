@@ -41,9 +41,8 @@
                           <EmptySpace pref="148" max="32767" attributes="0"/>
                           <Component id="btnObrisi" min="-2" max="-2" attributes="0"/>
                           <EmptySpace type="separate" max="-2" attributes="0"/>
-                          <Component id="Izmeni" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace type="separate" max="-2" attributes="0"/>
-                          <Component id="btnPotvrdi" min="-2" max="-2" attributes="0"/>
+                          <Component id="btnIzmeni" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace min="-2" pref="121" max="-2" attributes="0"/>
                       </Group>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
@@ -65,10 +64,9 @@
                   <EmptySpace type="separate" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="btnObrisi" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="Izmeni" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="btnIzmeni" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="txtKriterijum" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="btnPretrazi" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="btnPotvrdi" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace max="32767" attributes="0"/>
               </Group>
@@ -81,6 +79,9 @@
       <Properties>
         <Property name="text" type="java.lang.String" value="Pretrazi"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnPretraziActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JTextField" name="txtKriterijum">
     </Component>
@@ -88,16 +89,17 @@
       <Properties>
         <Property name="text" type="java.lang.String" value="Obrisi"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnObrisiActionPerformed"/>
+      </Events>
     </Component>
-    <Component class="javax.swing.JButton" name="Izmeni">
+    <Component class="javax.swing.JButton" name="btnIzmeni">
       <Properties>
         <Property name="text" type="java.lang.String" value="Izmeni"/>
       </Properties>
-    </Component>
-    <Component class="javax.swing.JButton" name="btnPotvrdi">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="Potvrdi izmene"/>
-      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnIzmeniActionPerformed"/>
+      </Events>
     </Component>
     <Container class="javax.swing.JScrollPane" name="jScrollPane1">
       <AuxValues>

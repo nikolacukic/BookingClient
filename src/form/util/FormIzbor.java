@@ -6,6 +6,7 @@
 package form.util;
 
 import form.FormRegistracija;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -98,6 +99,7 @@ public class FormIzbor extends javax.swing.JDialog {
     private void btnKlijentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnKlijentActionPerformed
         FormRegistracija frm = new FormRegistracija(false);
         frm.setVisible(true);
+        JOptionPane.showMessageDialog(frm, "Sistem je kreirao nalog", "Info", JOptionPane.INFORMATION_MESSAGE);
         getParent().setVisible(false);
     }//GEN-LAST:event_btnKlijentActionPerformed
 
@@ -108,6 +110,7 @@ public class FormIzbor extends javax.swing.JDialog {
     private void btnVlasnickiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVlasnickiActionPerformed
         FormRegistracija frm = new FormRegistracija(true);
         frm.setVisible(true);
+        JOptionPane.showMessageDialog(frm, "Sistem je kreirao nalog", "Info", JOptionPane.INFORMATION_MESSAGE);
         getParent().setVisible(false);
     }//GEN-LAST:event_btnVlasnickiActionPerformed
 

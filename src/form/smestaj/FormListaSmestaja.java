@@ -7,11 +7,12 @@ package form.smestaj;
 
 import domain.Smestaj;
 import form.smestaj.model.TableModelSmestaj;
-import java.util.LinkedList;
+import form.util.ListaSmestajaFormMode;
 import java.util.List;
 import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 import kontroler.Kontroler;
+import sesija.Sesija;
 
 /**
  *
@@ -19,13 +20,16 @@ import kontroler.Kontroler;
  */
 public class FormListaSmestaja extends javax.swing.JDialog {
 
+    
+    private int mode;
     /**
      * Creates new form FormListaSmestaja
      */
-    public FormListaSmestaja(java.awt.Frame parent, boolean modal) {
+    public FormListaSmestaja(java.awt.Frame parent, boolean modal, int mode) {
         super(parent, modal);
         initComponents();
-        pripremi();
+        this.mode = mode;
+        pripremi(mode);
         pack();
     }
 
@@ -41,8 +45,7 @@ public class FormListaSmestaja extends javax.swing.JDialog {
         btnPretrazi = new javax.swing.JButton();
         txtKriterijum = new javax.swing.JTextField();
         btnObrisi = new javax.swing.JButton();
-        Izmeni = new javax.swing.JButton();
-        btnPotvrdi = new javax.swing.JButton();
+        btnIzmeni = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblSmestaji = new javax.swing.JTable();
         btnDetalji = new javax.swing.JButton();
@@ -51,12 +54,25 @@ public class FormListaSmestaja extends javax.swing.JDialog {
         setTitle("BuKing - Lista smestaja");
 
         btnPretrazi.setText("Pretrazi");
+        btnPretrazi.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnPretraziActionPerformed(evt);
+            }
+        });
 
         btnObrisi.setText("Obrisi");
+        btnObrisi.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnObrisiActionPerformed(evt);
+            }
+        });
 
-        Izmeni.setText("Izmeni");
-
-        btnPotvrdi.setText("Potvrdi izmene");
+        btnIzmeni.setText("Izmeni");
+        btnIzmeni.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnIzmeniActionPerformed(evt);
+            }
+        });
 
         tblSmestaji.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -98,9 +114,8 @@ public class FormListaSmestaja extends javax.swing.JDialog {
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 148, Short.MAX_VALUE)
                             .addComponent(btnObrisi)
                             .addGap(18, 18, 18)
-                            .addComponent(Izmeni)
-                            .addGap(18, 18, 18)
-                            .addComponent(btnPotvrdi)))
+                            .addComponent(btnIzmeni)
+                            .addGap(121, 121, 121)))
                     .addContainerGap()))
         );
         layout.setVerticalGroup(
@@ -116,10 +131,9 @@ public class FormListaSmestaja extends javax.swing.JDialog {
                     .addGap(18, 18, 18)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(btnObrisi)
-                        .addComponent(Izmeni)
+                        .addComponent(btnIzmeni)
                         .addComponent(txtKriterijum, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(btnPretrazi)
-                        .addComponent(btnPotvrdi))
+                        .addComponent(btnPretrazi))
                     .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
         );
 
@@ -132,30 +146,104 @@ public class FormListaSmestaja extends javax.swing.JDialog {
 
             TableModelSmestaj model = (TableModelSmestaj) tblSmestaji.getModel();
 
-            JDialog frmProduct = new FormNoviSmestaj(this, true, model.getSmestaj(selectedRow));
+            JDialog frmProduct = new FormNoviSmestaj(this, true, model.getSmestaj(selectedRow), ListaSmestajaFormMode.PRETRAZI);
             frmProduct.setVisible(true);
 
         } catch (Exception ex) {
-           JOptionPane.showMessageDialog(this, ex.getMessage(), "Greska", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, ex.getMessage(), "Greska", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_btnDetaljiActionPerformed
 
+    private void btnPretraziActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPretraziActionPerformed
+        if (txtKriterijum.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Unesite kriterijum za pretragu", "Greska!", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        String kriterijum = txtKriterijum.getText();
+        try {
+            List<Smestaj> smestaji = Kontroler.getInstance().vratiSveSmestaje(kriterijum);
+            TableModelSmestaj model = (TableModelSmestaj) tblSmestaji.getModel();
+            model.setSmestaji(smestaji);
+            model.fireTableDataChanged();
+            JOptionPane.showMessageDialog(this, "Pretraga je uspesno zavrsena!", "Obavestenje", JOptionPane.INFORMATION_MESSAGE);
+            if(mode == ListaSmestajaFormMode.IZMENI) {
+                btnIzmeni.setEnabled(true);
+                pack();
+            }
+            if(mode == ListaSmestajaFormMode.OBRISI) {
+                btnObrisi.setEnabled(true);
+                pack();
+            }
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(this, ex.getMessage(), "Greska", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_btnPretraziActionPerformed
+
+    private void btnObrisiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnObrisiActionPerformed
+        try {
+            int selectedRow = vratiOznacenRed();
+
+            TableModelSmestaj model = (TableModelSmestaj) tblSmestaji.getModel();
+            if(!model.getSmestaj(selectedRow).getVlasnik().getKorisnickoIme().equals(Sesija.getInstance().getKorisnik().getKorisnickoIme())) {
+                JOptionPane.showMessageDialog(this, "Ne mozete brisati smestaj koji niste vi kreirali!", "Greska", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+            JDialog frm = new FormNoviSmestaj(this, true, model.getSmestaj(selectedRow), mode);
+            frm.setVisible(true);
+
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(this, ex.getMessage(), "Greska", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_btnObrisiActionPerformed
+
+    private void btnIzmeniActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIzmeniActionPerformed
+        try {
+            int selectedRow = vratiOznacenRed();
+
+            TableModelSmestaj model = (TableModelSmestaj) tblSmestaji.getModel();
+            if(!model.getSmestaj(selectedRow).getVlasnik().getKorisnickoIme().equals(Sesija.getInstance().getKorisnik().getKorisnickoIme())) {
+                JOptionPane.showMessageDialog(this, "Ne mozete menjati podatke o smestaju koji niste vi kreirali!", "Greska", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+            JDialog frm = new FormNoviSmestaj(this, true, model.getSmestaj(selectedRow), mode);
+            frm.setVisible(true);
+
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(this, ex.getMessage(), "Greska", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_btnIzmeniActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton Izmeni;
     private javax.swing.JButton btnDetalji;
+    private javax.swing.JButton btnIzmeni;
     private javax.swing.JButton btnObrisi;
-    private javax.swing.JButton btnPotvrdi;
     private javax.swing.JButton btnPretrazi;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable tblSmestaji;
     private javax.swing.JTextField txtKriterijum;
     // End of variables declaration//GEN-END:variables
 
-    private void pripremi() {
+    private void pripremi(int mode) {
         try {
+            switch (mode) {
+                case ListaSmestajaFormMode.IZMENI:
+                    btnObrisi.setVisible(false);
+                    btnIzmeni.setEnabled(false);
+                    break;
+                case ListaSmestajaFormMode.OBRISI:
+                    btnIzmeni.setVisible(false);
+                    btnObrisi.setEnabled(false);
+                    break;
+                case ListaSmestajaFormMode.PRETRAZI:
+                    btnIzmeni.setVisible(false);
+                    btnObrisi.setVisible(false);
+                    break;
+                default:
+                    break;
+            }
             setLocationRelativeTo(null);
-            List<Smestaj> s = Kontroler.getInstance().vratiSveSmestaje();
+            List<Smestaj> s = Kontroler.getInstance().vratiSveSmestaje("");
             TableModelSmestaj model = new TableModelSmestaj(s);
             tblSmestaji.setModel(model);
         } catch (Exception ex) {
@@ -163,12 +251,19 @@ public class FormListaSmestaja extends javax.swing.JDialog {
             ex.printStackTrace();
         }
     }
-    
+
     private int vratiOznacenRed() throws Exception {
         int selectedRow = tblSmestaji.getSelectedRow();
         if (selectedRow == -1) {
             throw new Exception("Morate oznaciti smestaj!");
         }
         return selectedRow;
+    }
+    
+    public void azurirajTabelu() throws Exception{
+        List<Smestaj> s = Kontroler.getInstance().vratiSveSmestaje("");
+        TableModelSmestaj model = (TableModelSmestaj) tblSmestaji.getModel();
+        model.setSmestaji(s);
+        model.fireTableDataChanged();
     }
 }
