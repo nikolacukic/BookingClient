@@ -150,7 +150,7 @@ public class FormNovaOcena extends javax.swing.JDialog {
             s.getOcene().add(o);
             s.azurirajProsek();
             FormListaSmestaja mama = (FormListaSmestaja)this.getParent();
-            mama.azurirajTabelu();
+            mama.azurirajTabeluPosleOcene();
             dispose();
 
         } catch (Exception ex) {

@@ -263,7 +263,7 @@ public class FormListaSmestaja extends javax.swing.JDialog {
 
             JDialog frm = new FormNovaOcena(this, true, model.getSmestaj(selectedRow));
             frm.setVisible(true);
-
+            
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(this, ex.getMessage(), "Greska", JOptionPane.ERROR_MESSAGE);
         }
@@ -312,27 +312,30 @@ public class FormListaSmestaja extends javax.swing.JDialog {
                     btnIzmeni.setVisible(false);
                     btnObrisi.setVisible(false);
                     btnRezervisi.setVisible(false);
-                    setLocationRelativeTo(null);
-                    Klijent trenutni = (Klijent) Sesija.getInstance().getKorisnik();
-                    List<Smestaj> s = new LinkedList<Smestaj>();
-                    for(Rezervacija sm: trenutni.getRezervacije()){
-                        if(!s.contains(sm.getSmestaj())){
-                            s.add(sm.getSmestaj());
-                        }
-                    }
-                    TableModelSmestaj model = new TableModelSmestaj(s);
-                    tblSmestaji.setModel(model);
-                    return;
+                    break;
                 default:
                     break;
             }
-            setLocationRelativeTo(null);
-            List<Smestaj> s = Kontroler.getInstance().vratiSveSmestaje("");
-            TableModelSmestaj model = new TableModelSmestaj(s);
-            tblSmestaji.setModel(model);
+            if (mode == ListaSmestajaFormMode.OCENI) {
+                setLocationRelativeTo(null);
+                Klijent trenutni = (Klijent) Sesija.getInstance().getKorisnik();
+                List<Smestaj> s = new LinkedList<Smestaj>();
+                for (Rezervacija sm : trenutni.getRezervacije()) {
+                    if (!s.contains(sm.getSmestaj())) {
+                        s.add(sm.getSmestaj());
+                    }
+                }
+                TableModelSmestaj model = new TableModelSmestaj(s);
+                tblSmestaji.setModel(model);
+            } else {
+                setLocationRelativeTo(null);
+                List<Smestaj> s = Kontroler.getInstance().vratiSveSmestaje("");
+                TableModelSmestaj model = new TableModelSmestaj(s);
+                tblSmestaji.setModel(model);
+            }
+
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(this, "Greska prilikom ucitavanja smestaja!", "Greska", JOptionPane.ERROR_MESSAGE);
-            ex.printStackTrace();
         }
     }
 
@@ -349,5 +352,17 @@ public class FormListaSmestaja extends javax.swing.JDialog {
         TableModelSmestaj model = (TableModelSmestaj) tblSmestaji.getModel();
         model.setSmestaji(s);
         model.fireTableDataChanged();
+    }
+    
+    public void azurirajTabeluPosleOcene(){
+        Klijent trenutni = (Klijent) Sesija.getInstance().getKorisnik();
+                List<Smestaj> s = new LinkedList<Smestaj>();
+                for (Rezervacija sm : trenutni.getRezervacije()) {
+                    if (!s.contains(sm.getSmestaj())) {
+                        s.add(sm.getSmestaj());
+                    }
+                }
+                TableModelSmestaj model = new TableModelSmestaj(s);
+                tblSmestaji.setModel(model);
     }
 }

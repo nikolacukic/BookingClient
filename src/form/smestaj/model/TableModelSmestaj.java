@@ -59,7 +59,7 @@ public class TableModelSmestaj extends AbstractTableModel{
             case 4:
                 return smestaj.getOpis();
             case 5:
-                return smestaj.getProsecnaOcena();
+                return String.format("%.2f", smestaj.getProsecnaOcena());
             case 6:
                 return smestaj.getVlasnik().getKorisnickoIme();
             default:

@@ -24,6 +24,7 @@ import sesija.Sesija;
 public class FormNovaRezervacija extends javax.swing.JDialog {
 
     private Smestaj s;
+    private Rezervacija r;
 
     /**
      * Creates new form FormNovaRezervacija
@@ -34,6 +35,16 @@ public class FormNovaRezervacija extends javax.swing.JDialog {
         setLocationRelativeTo(parent);
         this.s = smestaj;
         popuni();
+        pack();
+    }
+    
+    public FormNovaRezervacija(java.awt.Dialog parent, boolean modal, Rezervacija rezervacija) {
+        super(parent, modal);
+        initComponents();
+        setLocationRelativeTo(parent);
+        this.r = rezervacija;
+        popuni2();
+        pack();
     }
 
     /**
@@ -59,6 +70,7 @@ public class FormNovaRezervacija extends javax.swing.JDialog {
         lblUkupno = new javax.swing.JLabel();
         txtUkupno = new javax.swing.JTextField();
         txtBrojKreveta = new javax.swing.JTextField();
+        btnOtkazi = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("BuKing - Kreiranje rezervacije");
@@ -152,12 +164,21 @@ public class FormNovaRezervacija extends javax.swing.JDialog {
                 .addContainerGap())
         );
 
+        btnOtkazi.setText("Otkazi");
+        btnOtkazi.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnOtkaziActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(btnOtkazi)
+                .addGap(18, 18, 18)
                 .addComponent(btnRezervisi)
                 .addGap(21, 21, 21))
             .addGroup(layout.createSequentialGroup()
@@ -189,7 +210,9 @@ public class FormNovaRezervacija extends javax.swing.JDialog {
                     .addComponent(lblDatumOdlaska)
                     .addComponent(pickDatumDo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 26, Short.MAX_VALUE)
-                .addComponent(btnRezervisi)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnRezervisi)
+                    .addComponent(btnOtkazi))
                 .addContainerGap())
         );
 
@@ -213,6 +236,10 @@ public class FormNovaRezervacija extends javax.swing.JDialog {
         }
         if (datumOd.compareTo(datumDo) >= 0) {
             JOptionPane.showMessageDialog(this, "Datum odlaska mora biti posle datuma dolaska!", "Greska", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        if (datumOd.compareTo(new Date()) <= 0){
+            JOptionPane.showMessageDialog(this, "Smestaj mozete rezervisati samo za buduce datume!", "Greska", JOptionPane.ERROR_MESSAGE);
             return;
         }
         Date[] datumi = proveriDostupnost();
@@ -240,6 +267,7 @@ public class FormNovaRezervacija extends javax.swing.JDialog {
 
             JOptionPane.showMessageDialog(this.getParent(), "Sistem je zapamtio rezervaciju!", "Obavestenje", JOptionPane.INFORMATION_MESSAGE);
             k.setStanjeNaRacunu(k.getStanjeNaRacunu() - ukupanIznos);
+            k.getRezervacije().add(r);
             dispose();
 
         } catch (Exception ex) {
@@ -247,7 +275,25 @@ public class FormNovaRezervacija extends javax.swing.JDialog {
         }
     }//GEN-LAST:event_btnRezervisiActionPerformed
 
+    private void btnOtkaziActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOtkaziActionPerformed
+         try {
+            Rezervacija rez = Kontroler.getInstance().otkaziRezervaciju(r);
+
+            JOptionPane.showMessageDialog(this.getParent(), "Sistem je obrisao rezervaciju!", "Obavestenje", JOptionPane.INFORMATION_MESSAGE);
+            FormListaRezervacija mama = (FormListaRezervacija)this.getParent();
+            mama.azurirajTabelu();
+            Klijent k = (Klijent) Sesija.getInstance().getKorisnik();
+            k.setStanjeNaRacunu(k.getStanjeNaRacunu() + rez.getUkupanIznos());
+            k.getRezervacije().remove(rez);
+            dispose();
+
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(this, ex.getMessage(), "Greska", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_btnOtkaziActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnOtkazi;
     private javax.swing.JButton btnRezervisi;
     private javax.swing.JLabel lblBrojKreveta;
     private javax.swing.JLabel lblCena;
@@ -272,6 +318,7 @@ public class FormNovaRezervacija extends javax.swing.JDialog {
         Date datdo = dodajDane(new Date(), 1);
         pickDatumOd.setDate(datod);
         pickDatumDo.setDate(datdo);
+        btnOtkazi.setVisible(false);
         osveziUkupno();
     }
 
@@ -313,5 +360,21 @@ public class FormNovaRezervacija extends javax.swing.JDialog {
             }
         }
         return null;
+    }
+
+    private void popuni2() {
+        txtBrojKreveta.setText("" + r.getSmestaj().getBrojKreveta());
+        txtCena.setText("" + r.getSmestaj().getCenaPrenocista());
+        txtNaziv.setText(r.getSmestaj().getNazivSmestaja());
+        pickDatumOd.setDate(r.getDatumOd());
+        pickDatumDo.setDate(r.getDatumDo());
+        txtUkupno.setText(""+r.getUkupanIznos());
+        txtBrojKreveta.setEnabled(false);
+        txtCena.setEnabled(false);
+        txtNaziv.setEnabled(false);
+        pickDatumOd.setEnabled(false);
+        pickDatumDo.setEnabled(false);
+        txtUkupno.setEnabled(false);
+        btnRezervisi.setVisible(false);
     }
 }

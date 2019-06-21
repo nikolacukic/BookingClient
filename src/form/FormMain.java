@@ -7,8 +7,10 @@ package form;
 
 import domain.Klijent;
 import domain.VlasnikSmestaja;
+import form.rezervacija.FormListaRezervacija;
 import form.smestaj.FormListaSmestaja;
 import form.smestaj.FormNoviSmestaj;
+import form.util.ListaRezervacijaFormMode;
 import form.util.ListaSmestajaFormMode;
 import javax.swing.JDialog;
 import sesija.Sesija;
@@ -113,6 +115,11 @@ public class FormMain extends javax.swing.JFrame {
         menuRezervacije.add(menuItemPretraziRezervacije);
 
         menuItemOtkaziRezervaciju.setText("Otkazi rezervaciju");
+        menuItemOtkaziRezervaciju.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuItemOtkaziRezervacijuActionPerformed(evt);
+            }
+        });
         menuRezervacije.add(menuItemOtkaziRezervaciju);
 
         menuBar.add(menuRezervacije);
@@ -156,7 +163,8 @@ public class FormMain extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void menuItemPretraziRezervacijeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuItemPretraziRezervacijeActionPerformed
-        // TODO add your handling code here:
+        JDialog frm = new FormListaRezervacija(this, true, ListaRezervacijaFormMode.PRETRAZI);
+        frm.setVisible(true);
     }//GEN-LAST:event_menuItemPretraziRezervacijeActionPerformed
 
     private void menuItemKreirajSmestajActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuItemKreirajSmestajActionPerformed
@@ -188,6 +196,11 @@ public class FormMain extends javax.swing.JFrame {
         JDialog frm = new FormListaSmestaja(this, true, ListaSmestajaFormMode.OCENI);
         frm.setVisible(true);
     }//GEN-LAST:event_menuItemKreirajOcenuActionPerformed
+
+    private void menuItemOtkaziRezervacijuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuItemOtkaziRezervacijuActionPerformed
+        JDialog frm = new FormListaRezervacija(this, true, ListaRezervacijaFormMode.OTKAZI);
+        frm.setVisible(true);
+    }//GEN-LAST:event_menuItemOtkaziRezervacijuActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel lblDobrodosao;

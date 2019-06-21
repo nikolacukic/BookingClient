@@ -15,6 +15,7 @@ import domain.VlasnikSmestaja;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.List;
 import sesija.Sesija;
 import transfer.Odgovor;
 import transfer.Zahtev;
@@ -78,7 +79,7 @@ public class Kontroler {
         String licnaKarta = recnik.get("licnaKarta");
         String telefon = recnik.get("telefon");
         if (!licnaKarta.isEmpty()) {
-            VlasnikSmestaja vlasnik = new VlasnikSmestaja(licnaKarta, telefon, 0, username, password, ime + " " + prezime, JMBG, email);
+            VlasnikSmestaja vlasnik = new VlasnikSmestaja(licnaKarta, telefon, username, password, ime + " " + prezime, JMBG, email);
             Zahtev zahtev = new Zahtev(Operacije.REGISTRACIJA, vlasnik);
             Komunikacija.getInstance().saljiZahtev(zahtev);
             Odgovor odgovor = Komunikacija.getInstance().citajOdgovor();
@@ -88,7 +89,7 @@ public class Kontroler {
             Exception ex = (Exception) odgovor.getError();
             throw ex;
         } else {
-            Klijent k = new Klijent(0, 0, username, password, ime + " " + prezime, JMBG, email);
+            Klijent k = new Klijent(0, username, password, ime + " " + prezime, JMBG, email);
             Zahtev zahtev = new Zahtev(Operacije.REGISTRACIJA, k);
             Komunikacija.getInstance().saljiZahtev(zahtev);
             Odgovor odgovor = Komunikacija.getInstance().citajOdgovor();
@@ -165,6 +166,28 @@ public class Kontroler {
         Odgovor odgovor = Komunikacija.getInstance().citajOdgovor();
         if (odgovor.getStatus() == StatusOdgovora.OK) {
             return (Ocena) odgovor.getPodaci();
+        }
+        Exception ex = (Exception) odgovor.getError();
+        throw ex;
+    }
+
+    public List<Rezervacija> vratiSveRezervacije(Rezervacija pom) throws Exception {
+        Zahtev zahtev = new Zahtev(Operacije.REZERVACIJA_UCITAVANJE, pom);
+        Komunikacija.getInstance().saljiZahtev(zahtev);
+        Odgovor odgovor = Komunikacija.getInstance().citajOdgovor();
+        if (odgovor.getStatus() == StatusOdgovora.OK) {
+            return (LinkedList<Rezervacija>) odgovor.getPodaci();
+        }
+        Exception ex = (Exception) odgovor.getError();
+        throw ex;
+    }
+
+    public Rezervacija otkaziRezervaciju(Rezervacija r) throws Exception{
+        Zahtev zahtev = new Zahtev(Operacije.REZERVACIJA_BRISANJE, r);
+        Komunikacija.getInstance().saljiZahtev(zahtev);
+        Odgovor odgovor = Komunikacija.getInstance().citajOdgovor();
+        if (odgovor.getStatus() == StatusOdgovora.OK) {
+            return (Rezervacija) odgovor.getPodaci();
         }
         Exception ex = (Exception) odgovor.getError();
         throw ex;
