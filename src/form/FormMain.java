@@ -97,6 +97,11 @@ public class FormMain extends javax.swing.JFrame {
         menuRezervacije.setText("Rezervacije");
 
         menuItemRezervisi.setText("Rezervisi");
+        menuItemRezervisi.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuItemRezervisiActionPerformed(evt);
+            }
+        });
         menuRezervacije.add(menuItemRezervisi);
 
         menuItemPretraziRezervacije.setText("Pretraga rezervacije");
@@ -115,6 +120,11 @@ public class FormMain extends javax.swing.JFrame {
         menuOcene.setText("Ocene");
 
         menuItemKreirajOcenu.setText("Oceni smestaj");
+        menuItemKreirajOcenu.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuItemKreirajOcenuActionPerformed(evt);
+            }
+        });
         menuOcene.add(menuItemKreirajOcenu);
 
         menuBar.add(menuOcene);
@@ -168,6 +178,16 @@ public class FormMain extends javax.swing.JFrame {
         JDialog frm = new FormListaSmestaja(this, true, ListaSmestajaFormMode.PRETRAZI);
         frm.setVisible(true);
     }//GEN-LAST:event_menuItemPretraziSmestajActionPerformed
+
+    private void menuItemRezervisiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuItemRezervisiActionPerformed
+        JDialog frm = new FormListaSmestaja(this, true, ListaSmestajaFormMode.REZERVISI);
+        frm.setVisible(true);
+    }//GEN-LAST:event_menuItemRezervisiActionPerformed
+
+    private void menuItemKreirajOcenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuItemKreirajOcenuActionPerformed
+        JDialog frm = new FormListaSmestaja(this, true, ListaSmestajaFormMode.OCENI);
+        frm.setVisible(true);
+    }//GEN-LAST:event_menuItemKreirajOcenuActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel lblDobrodosao;

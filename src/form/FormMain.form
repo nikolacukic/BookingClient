@@ -52,6 +52,9 @@
               <Properties>
                 <Property name="text" type="java.lang.String" value="Rezervisi"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="menuItemRezervisiActionPerformed"/>
+              </Events>
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="menuItemPretraziRezervacije">
               <Properties>
@@ -77,6 +80,9 @@
               <Properties>
                 <Property name="text" type="java.lang.String" value="Oceni smestaj"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="menuItemKreirajOcenuActionPerformed"/>
+              </Events>
             </MenuItem>
           </SubComponents>
         </Menu>

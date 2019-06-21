@@ -9,6 +9,7 @@ import kontroler.Kontroler;
 import form.util.FormIzbor;
 import domain.Klijent;
 import domain.VlasnikSmestaja;
+import java.awt.Toolkit;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import sesija.Sesija;
@@ -26,6 +27,7 @@ public class FormLogin extends javax.swing.JFrame {
         initComponents();
         setLocationRelativeTo(null);
         setRadioButtons();
+        //this.setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("\\icon.png")));
     }
 
     /**

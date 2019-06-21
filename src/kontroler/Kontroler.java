@@ -8,8 +8,11 @@ package kontroler;
 import komunikacija.Komunikacija;
 import domain.Klijent;
 import domain.Korisnik;
+import domain.Ocena;
+import domain.Rezervacija;
 import domain.Smestaj;
 import domain.VlasnikSmestaja;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedList;
 import sesija.Sesija;
@@ -138,6 +141,30 @@ public class Kontroler {
         Odgovor odgovor = Komunikacija.getInstance().citajOdgovor();
         if (odgovor.getStatus() == StatusOdgovora.OK) {
             return (Smestaj) odgovor.getPodaci();
+        }
+        Exception ex = (Exception) odgovor.getError();
+        throw ex;
+    }
+
+    public Rezervacija kreirajRezervaciju(Smestaj s, Klijent k, Date datumOd, Date datumDo, double ukupanIznos) throws Exception {
+        Rezervacija r = new Rezervacija(s, k, datumOd, datumDo, ukupanIznos);
+        Zahtev zahtev = new Zahtev(Operacije.REZERVACIJA_KREIRANJE, r);
+        Komunikacija.getInstance().saljiZahtev(zahtev);
+        Odgovor odgovor = Komunikacija.getInstance().citajOdgovor();
+        if (odgovor.getStatus() == StatusOdgovora.OK) {
+            return (Rezervacija) odgovor.getPodaci();
+        }
+        Exception ex = (Exception) odgovor.getError();
+        throw ex;
+    }
+
+    public Ocena kreirajOcenu(Smestaj s, int ocena, String komentar) throws Exception{
+        Ocena o = new Ocena((Klijent)Sesija.getInstance().getKorisnik(), s, ocena, komentar);
+        Zahtev zahtev = new Zahtev(Operacije.OCENA_KREIRANJE, o);
+        Komunikacija.getInstance().saljiZahtev(zahtev);
+        Odgovor odgovor = Komunikacija.getInstance().citajOdgovor();
+        if (odgovor.getStatus() == StatusOdgovora.OK) {
+            return (Ocena) odgovor.getPodaci();
         }
         Exception ex = (Exception) odgovor.getError();
         throw ex;
