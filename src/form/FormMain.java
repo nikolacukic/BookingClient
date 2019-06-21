@@ -12,6 +12,8 @@ import form.smestaj.FormListaSmestaja;
 import form.smestaj.FormNoviSmestaj;
 import form.util.ListaRezervacijaFormMode;
 import form.util.ListaSmestajaFormMode;
+import java.util.LinkedList;
+import java.util.List;
 import javax.swing.JDialog;
 import sesija.Sesija;
 
@@ -21,6 +23,8 @@ import sesija.Sesija;
  */
 public class FormMain extends javax.swing.JFrame {
 
+    
+    private List<JDialog> forme = new LinkedList<>();
     /**
      * Creates new form FormMain
      */
@@ -165,41 +169,49 @@ public class FormMain extends javax.swing.JFrame {
     private void menuItemPretraziRezervacijeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuItemPretraziRezervacijeActionPerformed
         JDialog frm = new FormListaRezervacija(this, true, ListaRezervacijaFormMode.PRETRAZI);
         frm.setVisible(true);
+        forme.add(frm);
     }//GEN-LAST:event_menuItemPretraziRezervacijeActionPerformed
 
     private void menuItemKreirajSmestajActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuItemKreirajSmestajActionPerformed
         JDialog frm = new FormNoviSmestaj(this, true);
         frm.setVisible(true);
+        forme.add(frm);
     }//GEN-LAST:event_menuItemKreirajSmestajActionPerformed
 
     private void menuItemIzmeniSmestajActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuItemIzmeniSmestajActionPerformed
         JDialog frm = new FormListaSmestaja(this, true, ListaSmestajaFormMode.IZMENI);
         frm.setVisible(true);
+        forme.add(frm);
     }//GEN-LAST:event_menuItemIzmeniSmestajActionPerformed
 
     private void menuItemObrisiSmestajActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuItemObrisiSmestajActionPerformed
         JDialog frm = new FormListaSmestaja(this, true, ListaSmestajaFormMode.OBRISI);
         frm.setVisible(true);
+        forme.add(frm);
     }//GEN-LAST:event_menuItemObrisiSmestajActionPerformed
 
     private void menuItemPretraziSmestajActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuItemPretraziSmestajActionPerformed
         JDialog frm = new FormListaSmestaja(this, true, ListaSmestajaFormMode.PRETRAZI);
         frm.setVisible(true);
+        forme.add(frm);
     }//GEN-LAST:event_menuItemPretraziSmestajActionPerformed
 
     private void menuItemRezervisiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuItemRezervisiActionPerformed
         JDialog frm = new FormListaSmestaja(this, true, ListaSmestajaFormMode.REZERVISI);
         frm.setVisible(true);
+        forme.add(frm);
     }//GEN-LAST:event_menuItemRezervisiActionPerformed
 
     private void menuItemKreirajOcenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuItemKreirajOcenuActionPerformed
         JDialog frm = new FormListaSmestaja(this, true, ListaSmestajaFormMode.OCENI);
         frm.setVisible(true);
+        forme.add(frm);
     }//GEN-LAST:event_menuItemKreirajOcenuActionPerformed
 
     private void menuItemOtkaziRezervacijuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuItemOtkaziRezervacijuActionPerformed
         JDialog frm = new FormListaRezervacija(this, true, ListaRezervacijaFormMode.OTKAZI);
         frm.setVisible(true);
+        forme.add(frm);
     }//GEN-LAST:event_menuItemOtkaziRezervacijuActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -234,5 +246,15 @@ public class FormMain extends javax.swing.JFrame {
             menuItemObrisiSmestaj.setEnabled(false);
             menuItemPretraziRezervacije.setEnabled(false);
         }
+    }
+
+
+    public void ugasi() {
+        for (JDialog forma : forme) {
+            if (forma != null) {
+                forma.dispose();
+            }
+        }
+        dispose();
     }
 }

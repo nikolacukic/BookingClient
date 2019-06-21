@@ -12,6 +12,7 @@ import domain.VlasnikSmestaja;
 import java.awt.Toolkit;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import nit.Osluskivac;
 import sesija.Sesija;
 
 /**
@@ -20,6 +21,8 @@ import sesija.Sesija;
  */
 public class FormLogin extends javax.swing.JFrame {
 
+    FormMain frm;
+    
     /**
      * Creates new form FormLogin
      */
@@ -170,11 +173,11 @@ public class FormLogin extends javax.swing.JFrame {
                 try {
                     Klijent klijent = Kontroler.getInstance().loginKlijent(username, password);
 
-                    dispose();
+                    setVisible(false);
                     Sesija.getInstance().setKorisnik(klijent);
 
-                    JFrame frmMain = new FormMain();
-                    frmMain.setVisible(true);
+                    frm = new FormMain();
+                    frm.setVisible(true);
                 } catch (Exception ex) {
                     JOptionPane.showMessageDialog(this, ex.getMessage(), "Greska", JOptionPane.ERROR_MESSAGE);
                 }
@@ -182,10 +185,10 @@ public class FormLogin extends javax.swing.JFrame {
                 try {
                     VlasnikSmestaja vlasnik = Kontroler.getInstance().loginVlasnik(username, password);
 
-                    dispose();
+                    setVisible(false);
                     Sesija.getInstance().setKorisnik(vlasnik);
-                    JFrame frmMain = new FormMain();
-                    frmMain.setVisible(true);
+                    frm = new FormMain();
+                    frm.setVisible(true);
                 } catch (Exception ex) {
                     JOptionPane.showMessageDialog(this, ex.getMessage(), "Greska", JOptionPane.ERROR_MESSAGE);
                 }
@@ -212,5 +215,13 @@ public class FormLogin extends javax.swing.JFrame {
         btnGrupa.add(btnKlijent);
         btnGrupa.add(btnVlasnik);
         btnKlijent.setSelected(true);
+    }
+
+    public void ugasi() {
+        JOptionPane.showMessageDialog(this, "Server se gasi!", "Obavestenje", JOptionPane.INFORMATION_MESSAGE);
+        if (frm != null) {
+            frm.ugasi();
+        }
+        dispose();
     }
 }

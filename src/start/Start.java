@@ -6,6 +6,7 @@
 package start;
 
 import form.FormLogin;
+import nit.Osluskivac;
 
 /**
  *
@@ -16,6 +17,7 @@ public class Start {
     public static void main(String[] args) {
         FormLogin frm = new FormLogin();
         frm.setVisible(true);
+        new Osluskivac(frm).start();
     }
     
 }
