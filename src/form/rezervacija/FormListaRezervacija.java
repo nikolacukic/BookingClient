@@ -49,8 +49,10 @@ public class FormListaRezervacija extends javax.swing.JDialog {
         btnPretrazi = new javax.swing.JButton();
         pickDatum = new org.jdesktop.swingx.JXDatePicker();
         btnOtkazi = new javax.swing.JButton();
+        btnDetalji = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("BuKing - Vase rezervacije");
 
         tblRezervacije.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -85,6 +87,13 @@ public class FormListaRezervacija extends javax.swing.JDialog {
             }
         });
 
+        btnDetalji.setText("Detalji");
+        btnDetalji.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDetaljiActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -101,6 +110,8 @@ public class FormListaRezervacija extends javax.swing.JDialog {
                         .addComponent(pickDatum, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnPretrazi, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(27, 27, 27)
+                        .addComponent(btnDetalji)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(btnOtkazi)))
                 .addContainerGap())
@@ -115,7 +126,8 @@ public class FormListaRezervacija extends javax.swing.JDialog {
                     .addComponent(txtKriterijum, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnPretrazi)
                     .addComponent(pickDatum, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnOtkazi))
+                    .addComponent(btnOtkazi)
+                    .addComponent(btnDetalji))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -149,7 +161,7 @@ public class FormListaRezervacija extends javax.swing.JDialog {
             TableModelRezervacija model = (TableModelRezervacija) tblRezervacije.getModel();
             model.setRezervacije(rezervacije);
             model.fireTableDataChanged();
-            JOptionPane.showMessageDialog(this, "Pretraga je uspesno zavrsena!", "Obavestenje", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Sistem ne moze da nadje nijednu rezervaciju po zadatoj vrednosti", "Greska", JOptionPane.ERROR_MESSAGE);
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(this, ex.getMessage(), "Greska", JOptionPane.ERROR_MESSAGE);
         }
@@ -164,11 +176,11 @@ public class FormListaRezervacija extends javax.swing.JDialog {
 
             TableModelRezervacija model = (TableModelRezervacija) tblRezervacije.getModel();
             Rezervacija rez = model.getRezervacija(selectedRow);
-            if(rez.getDatumOd().compareTo(new Date()) <= 0){
+            if (rez.getDatumOd().compareTo(new Date()) <= 0) {
                 JOptionPane.showMessageDialog(this, "Ne mozete otkazati rezervaciju koja je u toku ili je prosla!", "Greska", JOptionPane.ERROR_MESSAGE);
                 return;
             }
-            JDialog frm = new FormNovaRezervacija(this, true, model.getRezervacija(selectedRow));
+            JDialog frm = new FormNovaRezervacija(this, true, model.getRezervacija(selectedRow), ListaRezervacijaFormMode.OTKAZI);
             frm.setVisible(true);
 
         } catch (Exception ex) {
@@ -176,7 +188,20 @@ public class FormListaRezervacija extends javax.swing.JDialog {
         }
     }//GEN-LAST:event_btnOtkaziActionPerformed
 
+    private void btnDetaljiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDetaljiActionPerformed
+        try {
+            int selectedRow = vratiOznacenRed();
+
+            TableModelRezervacija model = (TableModelRezervacija) tblRezervacije.getModel();
+            JDialog frm = new FormNovaRezervacija(this, true, model.getRezervacija(selectedRow), ListaRezervacijaFormMode.PRETRAZI);
+            frm.setVisible(true);
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(this, ex.getMessage(), "Greska", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_btnDetaljiActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnDetalji;
     private javax.swing.JButton btnOtkazi;
     private javax.swing.JButton btnPretrazi;
     private javax.swing.JScrollPane jScrollPane1;
@@ -202,6 +227,8 @@ public class FormListaRezervacija extends javax.swing.JDialog {
             tblRezervacije.setModel(model);
             if (mode == ListaRezervacijaFormMode.PRETRAZI) {
                 btnOtkazi.setVisible(false);
+            } else {
+                btnDetalji.setVisible(false);
             }
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(this, "Greska prilikom ucitavanja rezervacija!", "Greska", JOptionPane.ERROR_MESSAGE);
@@ -211,11 +238,11 @@ public class FormListaRezervacija extends javax.swing.JDialog {
     private int vratiOznacenRed() throws Exception {
         int selectedRow = tblRezervacije.getSelectedRow();
         if (selectedRow == -1) {
-            throw new Exception("Morate oznaciti smestaj!");
+            throw new Exception("Morate oznaciti rezervaciju!");
         }
         return selectedRow;
     }
-    
+
     public void azurirajTabelu() throws Exception {
         Klijent k = (Klijent) Sesija.getInstance().getKorisnik();
         Rezervacija nova = new Rezervacija();

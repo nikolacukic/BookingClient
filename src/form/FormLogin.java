@@ -171,11 +171,11 @@ public class FormLogin extends javax.swing.JFrame {
         } else {
             if (btnKlijent.isSelected()) {
                 try {
-                    Klijent klijent = Kontroler.getInstance().loginKlijent(username, password);
+                    Klijent klijent = (Klijent)Kontroler.getInstance().login(username, password, false);
 
                     setVisible(false);
                     Sesija.getInstance().setKorisnik(klijent);
-
+                    
                     frm = new FormMain();
                     frm.setVisible(true);
                 } catch (Exception ex) {
@@ -183,7 +183,7 @@ public class FormLogin extends javax.swing.JFrame {
                 }
             } else {
                 try {
-                    VlasnikSmestaja vlasnik = Kontroler.getInstance().loginVlasnik(username, password);
+                    VlasnikSmestaja vlasnik = (VlasnikSmestaja) Kontroler.getInstance().login(username, password, true);
 
                     setVisible(false);
                     Sesija.getInstance().setKorisnik(vlasnik);

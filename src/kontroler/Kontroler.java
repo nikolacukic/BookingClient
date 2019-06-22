@@ -41,29 +41,22 @@ public class Kontroler {
         return instance;
     }
 
-    public Klijent loginKlijent(String username, String password) throws Exception {
-        Klijent klijent = new Klijent();
-        klijent.setKorisnickoIme(username);
-        klijent.setLozinka(password);
-        Zahtev zahtev = new Zahtev(Operacije.LOGIN, klijent);
-        Komunikacija.getInstance().saljiZahtev(zahtev);
-        Odgovor odgovor = Komunikacija.getInstance().citajOdgovor();
-        if (odgovor.getStatus() == StatusOdgovora.OK) {
-            return (Klijent) odgovor.getPodaci();
+    public Korisnik login(String username, String password, boolean jesteVlasnik) throws Exception {
+        Korisnik k;
+        if (jesteVlasnik) {
+            k = new VlasnikSmestaja();
+            k.setKorisnickoIme(username);
+            k.setLozinka(password);
+        } else {
+            k = new Klijent();
+            k.setKorisnickoIme(username);
+            k.setLozinka(password);
         }
-        Exception ex = (Exception) odgovor.getError();
-        throw ex;
-    }
-
-    public VlasnikSmestaja loginVlasnik(String username, String password) throws Exception {
-        VlasnikSmestaja vlasnik = new VlasnikSmestaja();
-        vlasnik.setKorisnickoIme(username);
-        vlasnik.setLozinka(password);
-        Zahtev zahtev = new Zahtev(Operacije.LOGIN, vlasnik);
+        Zahtev zahtev = new Zahtev(Operacije.LOGIN, k);
         Komunikacija.getInstance().saljiZahtev(zahtev);
         Odgovor odgovor = Komunikacija.getInstance().citajOdgovor();
         if (odgovor.getStatus() == StatusOdgovora.OK) {
-            return (VlasnikSmestaja) odgovor.getPodaci();
+            return (Korisnik) odgovor.getPodaci();
         }
         Exception ex = (Exception) odgovor.getError();
         throw ex;
@@ -107,7 +100,7 @@ public class Kontroler {
         s.setCenaPrenocista(cena);
         s.setNazivSmestaja(naziv);
         s.setOpis(opis);
-        s.setVlasnik((VlasnikSmestaja)Sesija.getInstance().getKorisnik());
+        s.setVlasnik((VlasnikSmestaja) Sesija.getInstance().getKorisnik());
         Zahtev zahtev = new Zahtev(Operacije.SMESTAJ_KREIRANJE, s);
         Komunikacija.getInstance().saljiZahtev(zahtev);
         Odgovor odgovor = Komunikacija.getInstance().citajOdgovor();
@@ -159,8 +152,8 @@ public class Kontroler {
         throw ex;
     }
 
-    public Ocena kreirajOcenu(Smestaj s, int ocena, String komentar) throws Exception{
-        Ocena o = new Ocena((Klijent)Sesija.getInstance().getKorisnik(), s, ocena, komentar);
+    public Ocena kreirajOcenu(Smestaj s, int ocena, String komentar) throws Exception {
+        Ocena o = new Ocena((Klijent) Sesija.getInstance().getKorisnik(), s, ocena, komentar);
         Zahtev zahtev = new Zahtev(Operacije.OCENA_KREIRANJE, o);
         Komunikacija.getInstance().saljiZahtev(zahtev);
         Odgovor odgovor = Komunikacija.getInstance().citajOdgovor();
@@ -182,7 +175,7 @@ public class Kontroler {
         throw ex;
     }
 
-    public Rezervacija otkaziRezervaciju(Rezervacija r) throws Exception{
+    public Rezervacija otkaziRezervaciju(Rezervacija r) throws Exception {
         Zahtev zahtev = new Zahtev(Operacije.REZERVACIJA_BRISANJE, r);
         Komunikacija.getInstance().saljiZahtev(zahtev);
         Odgovor odgovor = Komunikacija.getInstance().citajOdgovor();

@@ -8,6 +8,7 @@ package form.rezervacija;
 import domain.Klijent;
 import domain.Rezervacija;
 import domain.Smestaj;
+import form.util.ListaRezervacijaFormMode;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -25,6 +26,7 @@ public class FormNovaRezervacija extends javax.swing.JDialog {
 
     private Smestaj s;
     private Rezervacija r;
+    private int mode;
 
     /**
      * Creates new form FormNovaRezervacija
@@ -38,11 +40,12 @@ public class FormNovaRezervacija extends javax.swing.JDialog {
         pack();
     }
     
-    public FormNovaRezervacija(java.awt.Dialog parent, boolean modal, Rezervacija rezervacija) {
+    public FormNovaRezervacija(java.awt.Dialog parent, boolean modal, Rezervacija rezervacija, int mode) {
         super(parent, modal);
         initComponents();
         setLocationRelativeTo(parent);
         this.r = rezervacija;
+        this.mode = mode;
         popuni2();
         pack();
     }
@@ -376,5 +379,8 @@ public class FormNovaRezervacija extends javax.swing.JDialog {
         pickDatumDo.setEnabled(false);
         txtUkupno.setEnabled(false);
         btnRezervisi.setVisible(false);
+        if(mode == ListaRezervacijaFormMode.PRETRAZI){
+            btnOtkazi.setVisible(false);
+        }
     }
 }
