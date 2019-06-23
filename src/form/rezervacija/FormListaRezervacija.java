@@ -161,7 +161,12 @@ public class FormListaRezervacija extends javax.swing.JDialog {
             TableModelRezervacija model = (TableModelRezervacija) tblRezervacije.getModel();
             model.setRezervacije(rezervacije);
             model.fireTableDataChanged();
-            JOptionPane.showMessageDialog(this, "Sistem ne moze da nadje nijednu rezervaciju po zadatoj vrednosti", "Greska", JOptionPane.ERROR_MESSAGE);
+            if (rezervacije == null || rezervacije.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Sistem ne moze da nadje nijednu rezervaciju po zadatoj vrednosti", "Greska", JOptionPane.ERROR_MESSAGE);
+            } else {
+                JOptionPane.showMessageDialog(this, "Pretraga uspesna!", "Obavestenje", JOptionPane.INFORMATION_MESSAGE);
+            }
+
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(this, ex.getMessage(), "Greska", JOptionPane.ERROR_MESSAGE);
         }

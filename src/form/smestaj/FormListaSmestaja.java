@@ -193,7 +193,12 @@ public class FormListaSmestaja extends javax.swing.JDialog {
             TableModelSmestaj model = (TableModelSmestaj) tblSmestaji.getModel();
             model.setSmestaji(smestaji);
             model.fireTableDataChanged();
-            JOptionPane.showMessageDialog(this, "Pretraga je uspesno zavrsena!", "Obavestenje", JOptionPane.INFORMATION_MESSAGE);
+            if (smestaji == null || smestaji.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Sistem ne moze da pronadje nijedan smestaj po datom kriterijumu!", "Obavestenje", JOptionPane.ERROR_MESSAGE);
+                return;
+            } else {
+                JOptionPane.showMessageDialog(this, "Pretraga je uspesno zavrsena!", "Obavestenje", JOptionPane.INFORMATION_MESSAGE);
+            }
             if (mode == ListaSmestajaFormMode.IZMENI) {
                 btnIzmeni.setEnabled(true);
                 pack();
@@ -263,7 +268,7 @@ public class FormListaSmestaja extends javax.swing.JDialog {
 
             JDialog frm = new FormNovaOcena(this, true, model.getSmestaj(selectedRow));
             frm.setVisible(true);
-            
+
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(this, ex.getMessage(), "Greska", JOptionPane.ERROR_MESSAGE);
         }
@@ -353,16 +358,16 @@ public class FormListaSmestaja extends javax.swing.JDialog {
         model.setSmestaji(s);
         model.fireTableDataChanged();
     }
-    
-    public void azurirajTabeluPosleOcene(){
+
+    public void azurirajTabeluPosleOcene() {
         Klijent trenutni = (Klijent) Sesija.getInstance().getKorisnik();
-                List<Smestaj> s = new LinkedList<Smestaj>();
-                for (Rezervacija sm : trenutni.getRezervacije()) {
-                    if (!s.contains(sm.getSmestaj())) {
-                        s.add(sm.getSmestaj());
-                    }
-                }
-                TableModelSmestaj model = new TableModelSmestaj(s);
-                tblSmestaji.setModel(model);
+        List<Smestaj> s = new LinkedList<Smestaj>();
+        for (Rezervacija sm : trenutni.getRezervacije()) {
+            if (!s.contains(sm.getSmestaj())) {
+                s.add(sm.getSmestaj());
+            }
+        }
+        TableModelSmestaj model = new TableModelSmestaj(s);
+        tblSmestaji.setModel(model);
     }
 }
